@@ -6,4 +6,4 @@ Simple game where the Hosre (from chess) have an adventure on the Grid (size 10 
 
 ## Video about creation
 
-in progress...
+[![image](https://github.com/user-attachments/assets/28178e3b-d188-4a62-bdd3-c2fa6f9b2ef7)](https://boosty.to/calabonga/posts/3fd6659d-0d0d-44ce-87fe-a655249f969c)
