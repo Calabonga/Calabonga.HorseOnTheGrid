@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\CellAvailable.png" />
+    <None Remove="Assets\CellEmpty.png" />
+    <None Remove="Assets\CellFilled.png" />
+    <None Remove="Assets\CellHighlight.png" />
+    <None Remove="Assets\Icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\CellAvailable.png" />
+    <Resource Include="Assets\CellEmpty.png" />
+    <Resource Include="Assets\CellFilled.png" />
+    <Resource Include="Assets\CellHighlight.png" />
+    <Resource Include="Assets\Icon.png" />
+  </ItemGroup>
+
+</Project>
