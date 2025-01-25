@@ -3,9 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Calabonga.HorseOnTheGridMvvm.ViewModels"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" Height="450" Width="600" Icon="/Assets/Icon.png">
+    <Window.InputBindings>
+        <KeyBinding Key="Space" Command="{Binding StartGameCommand}"/>
+    </Window.InputBindings>
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
@@ -17,17 +27,27 @@
             <TextBlock Grid.Row="0"  VerticalAlignment="Center" Text="0" HorizontalAlignment="Center" 
                        FontSize="26"/>
 
-            <Border Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="BlueViolet" BorderThickness="1"
+            <Border Grid.Row="1" 
+                    Visibility="{Binding CanShowBoard, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" BorderBrush="BlueViolet" BorderThickness="1"
                     RenderOptions.EdgeMode="Aliased" Margin="10,0,10,0">
 
-                <UniformGrid 
-                             Width="400"
-                             Height="400"
-                             SnapsToDevicePixels="True"
-                             RenderOptions.BitmapScalingMode="HighQuality"/>
+                <ItemsControl ItemsSource="{Binding Cells}"
+                              SnapsToDevicePixels="True"
+                              RenderOptions.BitmapScalingMode="HighQuality">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid 
+                                Rows="{Binding Rows}" 
+                                Columns="{Binding Columns}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
             </Border>
             <TextBlock Grid.Row="2"
+                       Visibility="{Binding IsGameNotRunning, Converter={StaticResource BooleanToVisibilityConverter}}"
                        Text="PRESS SPACE TO START"
                        FontSize="22"
                        VerticalAlignment="Center"

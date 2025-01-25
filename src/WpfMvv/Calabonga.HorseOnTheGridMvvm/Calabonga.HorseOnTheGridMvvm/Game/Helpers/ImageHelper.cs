@@ -1,18 +1,15 @@
-﻿using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using Calabonga.HorseOnTheGridMvvm.Game.Entities;
+using System.Windows.Media;
 
 namespace Calabonga.HorseOnTheGridMvvm.Game.Helpers;
 
 public static class ImageHelper
 {
-    public static readonly ImageSource Empty = LoadImage("CellEmpty.png");
-    public static readonly ImageSource Filled = LoadImage("CellFilled.png");
-    public static readonly ImageSource Highlighted = LoadImage("CellHighlight.png");
-    public static readonly ImageSource Available = LoadImage("CellAvailable.png");
-
-    private static ImageSource LoadImage(string fileName)
+    public static readonly Dictionary<CellType, ImageSource> CellToImage = new()
     {
-        return new BitmapImage(new Uri($"Assets/{fileName}", UriKind.Relative));
-    }
-
+        { CellType.Empty , ImageLoader.Empty},
+        { CellType.Filled , ImageLoader.Filled},
+        { CellType.Active , ImageLoader.Highlighted},
+        { CellType.Available , ImageLoader.Available},
+    };
 }
