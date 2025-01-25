@@ -24,14 +24,17 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0"  VerticalAlignment="Center" Text="0" HorizontalAlignment="Center" 
-                       FontSize="26"/>
+            <TextBlock Grid.Row="0" 
+                       Visibility="{Binding CanShowBoard, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" 
+                       Text="{Binding Score}"
+                       HorizontalAlignment="Center" 
+                       FontSize="56"/>
 
             <Border Grid.Row="1" 
                     Visibility="{Binding CanShowBoard, Converter={StaticResource BooleanToVisibilityConverter}}"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center" BorderBrush="BlueViolet" BorderThickness="1"
-                    RenderOptions.EdgeMode="Aliased" Margin="10,0,10,0">
+                    RenderOptions.EdgeMode="Aliased" Margin="10,0,10,10">
 
                 <ItemsControl ItemsSource="{Binding Cells}"
                               SnapsToDevicePixels="True"
