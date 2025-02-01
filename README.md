@@ -14,3 +14,4 @@ Simple game where the Hosre (from chess) have an adventure on the Grid (size 10 
 
 * [WPF.NET9 + MVVM: Horse On The Grid (1)](https://boosty.to/calabonga/posts/e0139d90-9c58-4ca5-b1ba-43e94d49566e)
 * [WPF.NET9 + MVVM: Horse On The Grid (2)](https://boosty.to/calabonga/posts/0ab9c26b-8fce-4cce-ac0b-4b972718d375)
+* [WPF.NET9 + MVVM: Horse On The Grid (3)](https://boosty.to/calabonga/posts/f5dd71c3-0560-45bb-9b21-5661481c1908) 
