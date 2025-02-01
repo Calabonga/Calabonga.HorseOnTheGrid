@@ -9,6 +9,11 @@
                  <Setter.Value>
                      <ControlTemplate TargetType="{x:Type local:GridCell}">
                          <Grid>
+                             <Grid.InputBindings>
+                                 <MouseBinding Gesture="LeftClick" 
+                                               Command="{Binding SelectCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+                             </Grid.InputBindings>
                              <Image Source="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}"
                                     VerticalAlignment="Stretch"
                                     HorizontalAlignment="Stretch"/>

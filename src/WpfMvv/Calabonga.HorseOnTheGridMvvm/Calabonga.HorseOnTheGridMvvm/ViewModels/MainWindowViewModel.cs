@@ -17,7 +17,6 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         Title = "HORSE ON THE GRID (MVVM)";
-
     }
 
     #region properties
@@ -76,6 +75,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region property Score
+
+    /// <summary>
+    /// Property Score
+    /// </summary>
+    [ObservableProperty] private string _score = "SCORE: 1";
+
+    #endregion
+
     #endregion
 
     #region commands
@@ -95,13 +103,42 @@ public partial class MainWindowViewModel : ViewModelBase
     }
     #endregion
 
+    #region MoveHorseCommand
+
+    [RelayCommand]
+    private void MoveHorse(object args)
+    {
+        if (!IsGameRunning)
+        {
+            return;
+        }
+
+        var grid = (GridCell)args;
+        _game?.MoveHorse(grid);
+
+        if (_game?.GameOver == true)
+        {
+            Score = $"GAME OVER: {_game.Score}";
+            IsGameRunning = false;
+        }
+
+        Draw();
+    }
+
+    #endregion
+
     #endregion
 
     private void RunGame()
     {
         SetupGrid();
 
-        //Draw();
+        Draw();
+    }
+
+    private void Draw()
+    {
+        Score = $"SCORE: {_game?.Score}";
     }
 
     private void SetupGrid()
@@ -112,6 +149,11 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         _game = new HorseGame(Rows, Columns);
+
+        foreach (var cell in _game.GridCells)
+        {
+            cell.SelectCommand = MoveHorseCommand;
+        }
 
         Cells = new ObservableCollection<GridCell>(_game.GridCells);
     }
