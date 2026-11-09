@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Calabonga.HorseOnTheGrid.Mobile.ViewModels"
+             x:Class="Calabonga.HorseOnTheGrid.Mobile.Views.GamePage"
+             x:DataType="vm:GameViewModel"
+             Title="Конь на доске">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="16">
+
+        <!-- Счёт -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+            <VerticalStackLayout>
+                <Label Text="Посещено клеток" Style="{StaticResource CaptionLabel}" />
+                <Label Text="{Binding ProgressText}" Style="{StaticResource ValueLabel}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Рекорд" Style="{StaticResource CaptionLabel}" />
+                <Label Text="{Binding BestResult}" Style="{StaticResource ValueLabel}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Поле 10×10. Размер стороны задаётся в коде страницы, чтобы поле оставалось квадратным. -->
+        <Grid x:Name="BoardHost" Grid.Row="1">
+            <Grid x:Name="BoardGrid"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center"
+                  RowDefinitions="*,*,*,*,*,*,*,*,*,*"
+                  ColumnDefinitions="*,*,*,*,*,*,*,*,*,*"
+                  RowSpacing="2"
+                  ColumnSpacing="2"
+                  BindableLayout.ItemsSource="{Binding Cells}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CellViewModel">
+                        <Border Grid.Column="{Binding Column}"
+                                Grid.Row="{Binding Row}"
+                                Padding="0"
+                                StrokeThickness="1"
+                                Stroke="{StaticResource BorderLine}"
+                                BackgroundColor="{StaticResource Surface}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectCommand}" />
+                            </Border.GestureRecognizers>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="{x:Static vm:CellState.Available}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Highlight}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="{x:Static vm:CellState.Visited}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PlateBlue}" />
+                                    <Setter Property="Stroke" Value="{StaticResource PlateBlue}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="{x:Static vm:CellState.Current}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource BrandOrange}" />
+                                    <Setter Property="Stroke" Value="{StaticResource BrandOrange}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Grid>
+                                <!-- Номер хода на посещённой клетке -->
+                                <Label Text="{Binding OrderText}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextOnAccent}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static vm:CellState.Current}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <!-- Конь на текущей клетке -->
+                                <Label Text="♞"
+                                       FontSize="22"
+                                       TextColor="{StaticResource TextOnAccent}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       IsVisible="False">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding State}" Value="{x:Static vm:CellState.Current}">
+                                            <Setter Property="IsVisible" Value="True" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </Grid>
+        </Grid>
+
+        <!-- Состояние партии и команды -->
+        <VerticalStackLayout Grid.Row="2" Spacing="12">
+            <Label Text="{Binding StatusText}" HorizontalTextAlignment="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsGameOver}" Value="True">
+                        <Setter Property="FontFamily" Value="AppSemibold" />
+                        <Setter Property="FontSize" Value="18" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Text="Отменить ход"
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding UndoCommand}" />
+                <Button Grid.Column="1"
+                        Text="Новая игра"
+                        Command="{Binding NewGameCommand}" />
+            </Grid>
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

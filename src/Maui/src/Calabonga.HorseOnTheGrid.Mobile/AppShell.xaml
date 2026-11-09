@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:Calabonga.HorseOnTheGrid.Mobile.Views"
+       x:Class="Calabonga.HorseOnTheGrid.Mobile.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Title="Конь на доске">
+
+    <!-- Страница создаётся через контейнер зависимостей, поэтому в её конструктор приходит модель представления. -->
+    <ShellContent Title="Конь на доске"
+                  ContentTemplate="{DataTemplate views:GamePage}"
+                  Route="game" />
+
+</Shell>

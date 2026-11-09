@@ -1,0 +1,23 @@
+# Сборка
+bin/
+obj/
+*.user
+.vs/
+.vscode/
+.idea/
+
+# Пакеты и результаты публикации
+*.apk
+*.aab
+publish/
+TestResults/
+
+# Ключи подписи никогда не попадают в репозиторий
+*.keystore
+*.jks
+*.p12
+*.pfx
+
+# Служебные файлы систем
+Thumbs.db
+.DS_Store

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Calabonga.HorseOnTheGrid.Core/Calabonga.HorseOnTheGrid.Core.csproj" />
+    <Project Path="src/Calabonga.HorseOnTheGrid.Mobile/Calabonga.HorseOnTheGrid.Mobile.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Calabonga.HorseOnTheGrid.Core.Tests/Calabonga.HorseOnTheGrid.Core.Tests.csproj" />
+  </Folder>
+</Solution>

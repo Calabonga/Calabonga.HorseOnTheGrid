@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<!-- Палитра брендбука calabonga.net, светлая тема -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Фирменные цвета -->
+    <Color x:Key="BrandOrange">#FF7200</Color>
+    <Color x:Key="BrandBlue">#007CFF</Color>
+    <Color x:Key="PlateBlue">#0070C0</Color>
+
+    <!-- Светлая тема -->
+    <Color x:Key="PageBackground">#FFFFFF</Color>
+    <Color x:Key="Surface">#F4F5F7</Color>
+    <Color x:Key="BorderLine">#DFE2E7</Color>
+    <Color x:Key="TextPrimary">#1A1A1A</Color>
+    <Color x:Key="TextSecondary">#8C8C8C</Color>
+    <Color x:Key="TextOnAccent">#FFFFFF</Color>
+
+    <!-- Смысловые акценты -->
+    <Color x:Key="Highlight">#FFC53D</Color>
+    <Color x:Key="Success">#3DD68C</Color>
+    <Color x:Key="Error">#FF5A47</Color>
+
+</ResourceDictionary>

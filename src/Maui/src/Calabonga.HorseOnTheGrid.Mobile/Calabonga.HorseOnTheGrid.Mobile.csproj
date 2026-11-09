@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+      Один проект — несколько платформ. В курсе собираем только Android.
+      Каждая платформа требует своей рабочей нагрузки .NET: если в списке есть платформа,
+      нагрузка которой не установлена, сборка падает с ошибкой NETSDK1147.
+      Чтобы добавить платформу, установите нагрузку (dotnet workload install ios / maccatalyst / maui-windows)
+      и допишите её в список, например:
+      <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+      <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+    -->
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Calabonga.HorseOnTheGrid.Mobile</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Название под иконкой на телефоне -->
+    <ApplicationTitle>Конь на доске</ApplicationTitle>
+    <!-- Имя пакета: уникально в магазине и не меняется после первой публикации -->
+    <ApplicationId>net.calabonga.horseonthegrid</ApplicationId>
+    <!-- Версия для людей и номер сборки для магазина (должен расти с каждой загрузкой) -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FF7200" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0070C0" BaseSize="128,128" />
+    <MauiImage Include="Resources\Images\*" />
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Calabonga.HorseOnTheGrid.Core\Calabonga.HorseOnTheGrid.Core.csproj" />
+  </ItemGroup>
+
+</Project>
