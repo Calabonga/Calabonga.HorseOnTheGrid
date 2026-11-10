@@ -88,14 +88,7 @@ dotnet test .\tests\Calabonga.HorseOnTheGrid.Core.Tests
 $env:HORSE_KEY_PASS = Read-Host "Пароль хранилища ключей"
 
 # 3. Сборка подписанного APK
-dotnet publish .\src\Calabonga.HorseOnTheGrid.Mobile `
-    -f net10.0-android -c Release `
-    -p:AndroidPackageFormats=apk `
-    -p:AndroidKeyStore=true `
-    -p:AndroidSigningKeyStore=C:\Keys\horse.keystore `
-    -p:AndroidSigningKeyAlias=horse `
-    -p:AndroidSigningKeyPass=env:HORSE_KEY_PASS `
-    -p:AndroidSigningStorePass=env:HORSE_KEY_PASS
+dotnet publish .\src\Calabonga.HorseOnTheGrid.Mobile -f net10.0-android -c Release -p:AndroidPackageFormats=apk -p:AndroidKeyStore=true  -p:AndroidSigningKeyStore=C:\Keys\horse.keystore -p:AndroidSigningKeyAlias=horse -p:AndroidSigningKeyPass=env:HORSE_KEY_PASS -p:AndroidSigningStorePass=env:HORSE_KEY_PASS
 
 # 4. Убрать пароль из сеанса
 Remove-Item Env:\HORSE_KEY_PASS
