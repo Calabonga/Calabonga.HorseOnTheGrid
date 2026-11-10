@@ -68,7 +68,7 @@ keytool -list -v -keystore C:\Keys\horse.keystore -alias horse
    keytool -list -v -keystore C:\Keys\museum.keystore
    ```
 
-   В выводе найдите строку `Alias name:` — это значение для `AndroidSigningKeyAlias`.
+   В выводе найдите строку `Alias name:` — это значение для `AndroidSigningKeyAlias`. Alias чужого хранилища почти наверняка не `horse` (например, у «Музея Юмора» это `humormuseum`): подставляйте именно тот, что показал `keytool`, иначе подпись завершится ошибкой.
 3. Пропустите создание нового хранилища и в разделе 2 подставьте в команду `dotnet publish` свои значения: `AndroidSigningKeyStore` (путь к файлу), `AndroidSigningKeyAlias` (alias из шага 2). Если пароли ключа и хранилища разные, задайте две переменные окружения и укажите их в `AndroidSigningKeyPass` и `AndroidSigningStorePass` соответственно.
 4. Первая версия в RuStore не требует совпадения с чужой подписью, поэтому загрузка пройдёт как обычно. Дальше подпись должна оставаться этой же.
 
@@ -110,8 +110,32 @@ Remove-Item Env:\HORSE_KEY_PASS
 `apksigner` входит в Android SDK (Build Tools). Путь и версия зависят от установки — **уточнить**:
 
 ```powershell
-& "$env:ANDROID_HOME\build-tools\<версия>\apksigner.bat" verify --print-certs `
+& "$env:ANDROID_HOME\build-tools\<версия>\apksigner.bat" verify -v --print-certs `
     .\src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\publish\net.calabonga.horseonthegrid-Signed.apk
+```
+
+Успех: `Verifies`, `Verified using v2 scheme ... true`, отпечаток SHA-256 совпадает с `keytool -list -v -keystore <файл> -alias <alias>`. Ответ `DOES NOT VERIFY` / `Missing META-INF/MANIFEST.MF` означает, что APK не подписан. Проверьте также `LastWriteTime` файла: он должен быть свежим.
+
+### Если подпись не выполняется
+
+В выводе `dotnet publish` ошибка выглядит как `MSB6006: "java.exe" exited with code 2` на шаге `_Sign`; сама причина напечатана выше. Получить её можно так:
+
+```powershell
+dotnet publish ... -v:n 2>&1 | Select-String -Context 0,4 "Failed to load signer|Exception"
+```
+
+| Текст ошибки | Причина и решение |
+|---|---|
+| `environment variable null not specified` | `HORSE_KEY_PASS` не задана в этом окне PowerShell: переменная живёт только в текущем сеансе, выполните шаг 2 из раздела выше |
+| `password was incorrect` / `Keystore was tampered with` | неверный пароль хранилища |
+| `Cannot recover key` | пароль ключа отличается от пароля хранилища: задайте две переменные |
+| `Entry for alias ... not found` | неверный alias: посмотрите его через `keytool -list` |
+
+**Устаревший `-Signed.apk`.** Если `_Sign` упал, `zipalign` уже успел создать `...-Signed.apk` без подписи. При следующем запуске MSBuild считает шаг выполненным (`Skipping target "_Sign" because all output files are up-to-date`) и копирует этот неподписанный файл в `publish\`. Перед повторной сборкой после ошибки удаляйте его:
+
+```powershell
+Remove-Item .\src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\*-Signed.apk -ErrorAction SilentlyContinue
+Remove-Item .\src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\publish\*-Signed.apk -ErrorAction SilentlyContinue
 ```
 
 ## 3. Выгрузка в RuStore Консоль
