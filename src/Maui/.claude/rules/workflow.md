@@ -1,12 +1,32 @@
 ## Правила рабочего процесса
 
-- Перед внесением изменений всегда создавай отдельную ветку Git. Допустимые префиксы: `feature/`, `bugfix/`, `hotfix/`.
+Команды выполняются из папки `src/Maui`.
+
+### Git
+- Перед изменениями создавай отдельную ветку. Допустимые префиксы: `feature/`, `bugfix/`, `hotfix/`.
 - Формат коммитов (Conventional Commits): `type: description`, где type — `feat`, `fix`, `refactor`, `test`, `docs`, `style`, `perf`, `build`, `ci`, `chore`, `revert`.
-- Создавай атомарные коммиты: одно логическое изменение на коммит, с понятным сообщением.
-- Запускай `dotnet test "src/Maui/tests/Calabonga.HorseOnTheGrid.Core.Tests/Calabonga.HorseOnTheGrid.Core.Tests.csproj"` после каждой реализации и перед коммитом; не ломай сборку (`dotnet build src/Maui/src/Calabonga.HorseOnTheGrid/Calabonga.HorseOnTheGrid.csproj`).
-- Перед коммитом убедись, что код соответствует `rules/code-styles.md` и `rules/conventions.md`.
-- Если нужно создать новый класс, сначала проверь, нет ли в решении файла с таким же названием.
-- Проверяй наличие новых версий зависимостей. Если есть обновления — спроси разрешение и обновляй при необходимости.
-- Если в коде встречается «Calabonga: Summary required» — замени «Summary» на описание на английском языке для этого метода (класса, свойства, переменной).
-- При изменении версии приложения обновляй её во всех местах: `<Version>` в `src/Maui/src/Calabonga.HorseOnTheGrid/Calabonga.HorseOnTheGrid.csproj`, бейдж и «Release notes» в `README.md` и `README.ru.md`, `build/release-notes.md`.
-- Каталоги `publish/` и `releases/` в git не добавляй; `dist/` коммитится только при выпуске релиза.
+- Коммиты атомарные: одно логическое изменение на коммит.
+- Не коммить `publish/`, `*.apk`, `*.aab`, ключи подписи (`*.keystore`, `*.jks`, `*.p12`, `*.pfx`), пароли и токены. Пароли и ключи передаются только через переменные окружения.
+
+### Проверка перед коммитом
+- После каждой реализации и перед коммитом запускай:
+  `dotnet test tests/Calabonga.HorseOnTheGrid.Core.Tests`
+- Сборку приложения проверяй так:
+  `dotnet build src/Calabonga.HorseOnTheGrid.Mobile -f net10.0-android`
+  Нужны нагрузка `maui-android` и однократный `setup.ps1`. Если сборка недоступна в окружении, прямо скажи об этом в отчёте, а не пропускай молча.
+- Код должен соответствовать `rules/code-styles.md` и `rules/conventions.md`. Правила действуют для нового и изменяемого кода; существующий код ради стиля не переписывай.
+
+### OpenSpec
+- Изменение поведения игры (правила хода, состояния партии, рекорд, экран поля) оформляй как change: `/opsx:propose` → `/opsx:apply` → `/opsx:archive`.
+- Новая игровая логика — только в `Core` и с тестом xUnit; `Mobile` правил игры не содержит.
+- Спецификации лежат в `openspec/specs`; после изменения поведения синхронизируй их с кодом.
+
+### Прочее
+- Прежде чем создать класс, проверь, нет ли в решении файла с таким же именем.
+- Проверяй новые версии зависимостей; при наличии обновлений спроси разрешение, потом обновляй.
+- Если в коде встречается «Calabonga: Summary required», замени «Summary» описанием на русском языке для этого метода (класса, свойства, переменной).
+
+### Версия приложения
+- `ApplicationDisplayVersion` — версия для людей; `ApplicationVersion` — номер сборки, растёт с каждой загрузкой в RuStore. Оба задаются в `src/Calabonga.HorseOnTheGrid.Mobile/Calabonga.HorseOnTheGrid.Mobile.csproj`.
+- При смене версии обнови упоминания версии в `docs/rustore-publishing.md` (таблица параметров) и в `README.md`, если они там появятся.
+- `ApplicationId` менять нельзя.

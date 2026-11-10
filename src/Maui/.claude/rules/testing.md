@@ -1,18 +1,20 @@
 ## Договорённости по тестированию
 
-Тесты находятся в проекте `Tests` и используют фреймворк xUnit. В тестах запрещено использовать `async void` и `Thread.Sleep`. Для асинхронных тестов используй `async Task`. Для синхронных тестов используй `void`.
+Тесты лежат в `tests/Calabonga.HorseOnTheGrid.Core.Tests` и используют xUnit. В тестах запрещены `async void` и `Thread.Sleep`. Асинхронные тесты — `async Task`, синхронные — `void`.
 
 ### Frameworks
-- xUnit
-- Moq
-- AutoFixture (`AutoFixture.AutoMoq`)
+- xUnit (+ `xunit.runner.visualstudio`).
+- Moq и AutoFixture не подключены: `Core` не имеет внешних зависимостей, мокать нечего. Добавлять их можно только вместе с тестовым проектом для `Mobile`, по согласованию.
 
 ### Что тестировать
-- Unit-тесты обязательны для логики.
-- Не требуют тестов: XAML и code-behind представлений, конфигурация и регистрация DI (`DependencyContainer`), чтение `settings.env`, темы, ресурсы.
-- Внешние зависимости (файловая система, `ILogger`) изолируй через Moq.
+- Unit-тесты обязательны для логики `Core`: `Game`, `Board`, `KnightMoves`, `Position`, `CommandHistory`.
+- Новая игровая логика не принимается без теста.
+- Не требуют тестов: XAML и code-behind (`GamePage.xaml.cs`), `MauiProgram.cs` и регистрация DI, `Platforms/`, стили и ресурсы (`Colors.xaml`, `Styles.xaml`), `App.xaml.cs`.
+- Тесты `Core.Tests` не должны зависеть от MAUI и платформы. К `internal`-членам ядра они допущены через `InternalsVisibleTo`.
+- Тесты должны быть детерминированными: любые случайные ходы — с фиксированным начальным значением.
 
-### Шаблоны для именования
-- `MethodName_Should_ExpectedBehavior_When_Condition` (например, `BuildUrl_Should_ReturnUrl_When_ParametersSet`)
-- `MethodName_ShouldNot_ExpectedBehavior_When_Condition` (например, `Handle_ShouldNot_ThrowException_When_ItemsEmpty`)
+### Шаблоны для именования (для новых тестов)
+- `MethodName_Should_ExpectedBehavior_When_Condition`, например `TryMove_Should_ReturnFalse_When_CellAlreadyVisited`.
+- `MethodName_ShouldNot_ExpectedBehavior_When_Condition`, например `Undo_ShouldNot_RemoveStartCell_When_OnlyStartVisited`.
+- Существующие тесты ради имён не переименовывай.
 - Структура теста: `// arrange`, `// act`, `// assert`.
