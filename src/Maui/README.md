@@ -73,19 +73,23 @@ dotnet build .\src\Calabonga.HorseOnTheGrid.Mobile -f net10.0-android -t:Run
 
 Первый запуск занимает несколько минут: на устройство устанавливается среда выполнения .NET. Следующие запуски — секунды.
 
+
+## Проверка ключа
+```
+keytool -list -v -keystore C:\Projects\RuStoreKey\humormuseum-release.jks
+```
+
+## Проверка сборка "свежая"
+```
+Get-Item .\src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\publish\*-Signed.apk | Select-Object Name, LastWriteTime, Length
+```
+
 ## Сборка подписанного пакета
 
 ```powershell
 $env:HORSE_KEY_PASS = Read-Host "Пароль хранилища ключей"
 
-dotnet publish .\src\Calabonga.HorseOnTheGrid.Mobile `
-    -f net10.0-android -c Release `
-    -p:AndroidPackageFormats=apk `
-    -p:AndroidKeyStore=true `
-    -p:AndroidSigningKeyStore=C:\Keys\horse.keystore `
-    -p:AndroidSigningKeyAlias=horse `
-    -p:AndroidSigningKeyPass=env:HORSE_KEY_PASS `
-    -p:AndroidSigningStorePass=env:HORSE_KEY_PASS
+dotnet publish .\src\Calabonga.HorseOnTheGrid.Mobile -f net10.0-android -c Release -p:AndroidPackageFormats=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=C:\Projects\RuStoreKey\humormuseum-release.jks -p:AndroidSigningKeyAlias=humormuseum -p:AndroidSigningKeyPass=env:HORSE_KEY_PASS -p:AndroidSigningStorePass=env:HORSE_KEY_PASS
 ```
 
 Пакет появится в `src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\publish\` с суффиксом `-Signed.apk`. Хранилище ключей создаётся утилитой `keytool` и хранится вне репозитория.
