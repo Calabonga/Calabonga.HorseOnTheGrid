@@ -163,7 +163,7 @@ Remove-Item .\src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\pu
 | Файл | Откуда | Куда |
 |---|---|---|
 | `net.calabonga.horseonthegrid-Signed.apk` | `src\Calabonga.HorseOnTheGrid.Mobile\bin\Release\net10.0-android\publish\` | форма «Загрузить новую версию» → файл приложения |
-| иконка 512×512 | подготовить отдельно (в проекте только `appicon.svg` для иконки приложения) | «Медиафайлы» → иконка |
+| иконка 512×512 | готова: `docs/icon-512.png` (тот же рисунок, что в `Resources/AppIcon`) | «Медиафайлы» → иконка |
 | не менее 3 скриншотов телефона | `docs/screenshots/*.png` или новые снимки | «Медиафайлы» → скриншоты (телефон) |
 | `horse.keystore` | `C:\Keys\` | **никуда не загружается**; хранить в секрете, делать резервную копию |
 
