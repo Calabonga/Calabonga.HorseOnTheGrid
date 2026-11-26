@@ -25,7 +25,7 @@
     <ApplicationId>net.calabonga.horseonthegrid</ApplicationId>
     <!-- Версия для людей и номер сборки для магазина (должен расти с каждой загрузкой) -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationVersion>2</ApplicationVersion>
 
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
